@@ -54,11 +54,14 @@
     shrine: { label: 'Shrine', color: '#d8c26a', glyph: '⛩', size: 'small' },
   };
   const SERVICE_GROUPS = {
-    shop: { label: 'Shops', color: '#e0b25a' },
-    smith: { label: 'Blacksmiths / ID', color: '#d97b52' },
-    travel: { label: 'Travel', color: '#6fb3d9' },
-    profession: { label: 'Profession Stations', color: '#9bc46a' },
-    other: { label: 'Other', color: '#b39ddb' },
+    merchant: { label: 'Merchants', color: '#e0b25a' },
+    blacksmith: { label: 'Blacksmiths', color: '#e0685f' },
+    identifier: { label: 'Identifiers', color: '#b07cf0' },
+    upgrader: { label: 'Item Upgraders', color: '#cfd8dc' },
+    trade: { label: 'Trade Market', color: '#4fa3d1' },
+    housing: { label: 'Housing Balloons', color: '#e07fb0' },
+    'mount-enclosure': { label: 'Mount Enclosures', color: '#8fd06f' },
+    travel: { label: 'Travel', color: '#7cc7c0' },
   };
 
   // ---------------------------------------------------------------- boot
@@ -130,11 +133,12 @@
       attribution: '',
     }).addTo(map);
 
+    map.invalidateSize();
     map.fitBounds(bounds, { padding: [14, 14] });
     map.setMinZoom(map.getZoom());
-    // start one step closer than the full-map fit, unless a deep link says otherwise
+    // start one step closer than the whole-map fit (the full view stays one click away)
     if (!location.hash && !new URLSearchParams(location.search).get('poi')) {
-      map.setZoom(Math.min(META.maxZoom, map.getZoom() + 1));
+      map.setZoom(Math.min(META.maxZoom, map.getZoom() + 1), { animate: false });
     }
     map.setMaxBounds(bounds.pad(0.06));
 
@@ -188,7 +192,7 @@
   function kindInfo(item) {
     if (item.grp === 'places') return PLACE_KINDS[item.c] || PLACE_KINDS.town;
     if (item.grp === 'combat') return COMBAT_KINDS[item.c] || COMBAT_KINDS.cave;
-    if (item.grp === 'services') return SERVICE_GROUPS[item.g] || SERVICE_GROUPS.other;
+    if (item.grp === 'services') return SERVICE_GROUPS[item.g] || { label: 'Service', color: '#9aa7b3' };
     return { label: 'Gathering', color: '#8fd06f' };
   }
 
@@ -354,29 +358,33 @@
 
     host.addEventListener('click', (e) => {
       const chip = e.target.closest('.chip');
-      if (chip) {
-        e.preventDefault();
-        const g = state[chip.dataset.grp];
-        const k = chip.dataset.kind;
-        if (g.kinds.has(k)) g.kinds.delete(k); else g.kinds.add(k);
-        if (g.kinds.size) g.on = true;
-        chip.classList.toggle('on', g.kinds.has(k));
-        const box = host.querySelector(`.grp-check[data-grp="${chip.dataset.grp}"]`);
-        if (box) box.checked = g.on;
-        sync();
-        return;
-      }
+      if (!chip) return;
+      e.preventDefault();
+      const grp = chip.dataset.grp;
+      const g = state[grp];
+      const k = chip.dataset.kind;
+      if (g.kinds.has(k)) g.kinds.delete(k); else g.kinds.add(k);
+      // any active child keeps the parent on; clearing the last child clears it
+      g.on = g.kinds.size > 0;
+      chip.classList.toggle('on', g.kinds.has(k));
+      const box = host.querySelector(`.grp-check[data-grp="${grp}"]`);
+      if (box) { box.checked = g.on; box.indeterminate = false; }
+      sync();
     });
 
     host.addEventListener('change', (e) => {
       const box = e.target.closest('.grp-check');
       if (!box) return;
-      const g = state[box.dataset.grp];
+      const grp = box.dataset.grp;
+      const g = state[grp];
       g.on = box.checked;
-      if (g.on && !g.kinds.size) {
-        GROUP_DEFS().find((d) => d.id === box.dataset.grp).kinds.forEach((k) => g.kinds.add(k.k));
-        host.querySelectorAll(`.chip[data-grp="${box.dataset.grp}"]`).forEach((c) => c.classList.add('on'));
+      g.kinds.clear();
+      if (g.on) {
+        GROUP_DEFS().find((d) => d.id === grp).kinds.forEach((k) => g.kinds.add(k.k));
       }
+      host.querySelectorAll(`.chip[data-grp="${grp}"]`).forEach((c) => {
+        c.classList.toggle('on', g.on && g.kinds.has(c.dataset.kind));
+      });
       sync();
     });
   }

@@ -264,7 +264,7 @@ kbd{
 .plbl.town{
   background:rgba(5,11,17,.48)!important;border-radius:4px;padding:1px 5px!important;font-size:10px;
 }
-.svc{width:9px;height:9px;border-width:1px;opacity:.95}
+.svc{width:10px;height:10px;border:1px solid #05090d;opacity:.96;box-shadow:0 0 0 1px rgba(255,255,255,.38),0 1px 2px rgba(0,0,0,.65)}
 
 /* ---------------- world tabs / void page ---------------- */
 .world-tabs{display:flex;gap:6px;padding:10px 14px 0}
