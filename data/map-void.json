@@ -1,0 +1,16 @@
+{
+  "name": "The Void",
+  "minX": 13312,
+  "maxX": 14335,
+  "minZ": -5120,
+  "maxZ": -3073,
+  "width": 1024,
+  "height": 2048,
+  "nativeZoom": 7,
+  "minZoom": 2,
+  "maxZoom": 9,
+  "tileSize": 256,
+  "background": "#080610",
+  "source": "Wynntils static map part map-void.png",
+  "builtAt": "2026-10-29T22:40:10+0800"
+}

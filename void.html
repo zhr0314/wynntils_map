@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Void · Wynncraft Map</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕳️</text></svg>">
+<link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body class="void-body">
+  <div id="vmap"></div>
+
+  <header class="void-head">
+    <nav class="world-tabs">
+      <a class="tab" href="index.html">Main World</a>
+      <a class="tab on" href="void.html">The Void</a>
+    </nav>
+    <h1>The Void <span>independent region</span></h1>
+    <p>Wynntils map data · separate region</p>
+  </header>
+
+  <div class="void-legend">
+    <div><i class="lg-dot"></i>Places</div>
+    <div><i class="lg-pin">⏱</i>Time Trials</div>
+    <div><i class="lg-dot" style="background:#d97b52"></i>Services</div>
+    <span>Scroll to zoom · Drag to pan</span>
+  </div>
+
+  <div class="hud">
+    <span id="hud-zoom" class="hud-z">Z7</span>
+    <span id="hud-pos">X — · Z —</span>
+    <button id="copy-pos" class="hud-btn">Copy</button>
+  </div>
+
+<script src="vendor/leaflet/leaflet.js"></script>
+<script src="assets/void.js"></script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Wynncraft Interactive Map · Wynntils web edition</title>
+<meta name="description" content="Interactive Wynncraft map built from Wynntils data: towns, dungeons, caves, bosses and services.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🗺️</text></svg>">
+<link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<div id="app">
+  <aside id="sidebar" aria-label="Map controls">
+    <div class="side-head">
+      <div class="brand">
+        <span class="logo">🗺️</span>
+        <div>
+          <h1>Wynncraft Map</h1>
+          <p>Wynntils data · web edition</p>
+        </div>
+      </div>
+      <button id="close-side" class="icon-btn" title="Collapse panel" aria-label="Collapse panel">✕</button>
+    </div>
+
+    <nav class="world-tabs">
+      <a class="tab on" href="index.html">Main World</a>
+      <a class="tab" href="void.html">The Void</a>
+    </nav>
+
+    <div class="search-box">
+      <span class="search-ico">⌕</span>
+      <input id="search" type="search" placeholder="Search towns, dungeons, caves…" autocomplete="off" spellcheck="false">
+      <kbd>/</kbd>
+      <div id="results" class="results" hidden></div>
+    </div>
+    <div id="layers" class="layers"></div>
+
+    <div class="side-foot">
+      <div class="quick">
+        <button id="reset" class="btn">Fit Map</button>
+        <button id="share" class="btn">Copy Link</button>
+      </div>
+      <p class="tips">Drag to pan · Scroll to zoom · Right-click to pin<br>Hold <kbd>Shift</kbd> and drag to box-zoom</p>
+    </div>
+  </aside>
+
+  <main id="map" aria-label="Wynncraft map"></main>
+
+  <button id="open-side" class="icon-btn floating" aria-label="Open panel" title="Layers &amp; search">☰</button>
+
+  <div id="hud" class="hud">
+    <span id="hud-zoom" class="hud-z">Z4</span>
+    <span id="hud-pos">X — · Z —</span>
+    <button id="copy-pos" class="hud-btn" title="Copy cursor coordinates">Copy</button>
+  </div>
+
+  <div id="toast" class="toast" hidden></div>
+</div>
+
+<div id="splash" class="splash">
+  <div class="splash-inner">
+    <div class="splash-map" id="splash-map"></div>
+    <h2>Wynncraft Interactive Map</h2>
+    <p id="splash-msg">Loading map data…</p>
+  </div>
+</div>
+
+<script src="vendor/leaflet/leaflet.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>
